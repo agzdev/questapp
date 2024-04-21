@@ -22,7 +22,7 @@ class AuthController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'avatar' => $request->avatar,
-            'status' => $request->status
+            'status' => 1
         ]);
 
         $token = $user->createToken('auth_token')->plainTextToken;
