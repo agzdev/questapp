@@ -20,7 +20,7 @@ class RegisterRequest extends FormRequest
             'full_name'=> 'string|required',
             'username'=> 'string|required',
             'email' => 'string|required|email|unique:users,email',
-            'password'=> 'string|required',
+            'password'=> 'string|required|unique:users,username',
             'avatar'=> 'string|nullable',
         ];
     }

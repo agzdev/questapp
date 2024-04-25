@@ -3,13 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use Illuminate\Http\Request;
-use Illuminate\Http\JsonResponse;
+use App\Models\Token;
 use App\Http\Requests\LoginRequest;
+use App\Http\Requests\LogoutRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\RegisterRequest;
-use Illuminate\Support\Facades\Validator;
 use Symfony\Component\HttpFoundation\Response;
 
 class AuthController extends Controller
@@ -51,9 +50,10 @@ class AuthController extends Controller
         ],Response::HTTP_OK);
     }
 
-    public function logout()
+    public function logout(LogoutRequest $request)
     {
-        auth()->user()->tokens()->delete();
+        $user = User::where('email', $request->email)->first();
+        Token::where('tokenable_id', $user->id)->delete();
 
         return response()->json([
             "message" => "Successfully logout"
