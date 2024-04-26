@@ -13,8 +13,10 @@ return new class extends Migration
     {
         Schema::create('questions', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
+            $table->unsignedBigInteger('public_post_id');
+            $table->foreign('public_post_id')->references('id')->on('public_posts')->onDelete('cascade');
             $table->string('text');
+            $table->tinyInteger('status');
         });
     }
 
