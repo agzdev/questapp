@@ -25,7 +25,7 @@ class ResetPasswordController extends Controller
         if (!Hash::check($request->oldPassword, $user->password)) {
             return response()->json([
                 'mensaje' => 'La contraseña actual es incorrecta'
-            ], Response::HTTP_UNPROCESSABLE_ENTITY); // Usar 422 para errores de validación
+            ], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
         $user->password = Hash::make($request->password);
         $user->save();
