@@ -30,24 +30,26 @@ class PostController extends Controller
         return response()->json(['Post updated successfully.', $post], Response::HTTP_OK);
     }
 
-    public function activatePost(Post $post):JsonResponse
+    public function sharePost(Post $post): JsonResponse
     {
-        if(!$post){
-            return response()->json('Post not found.', Response::HTTP_NOT_FOUND);
-        }
-        $post->status = Post::PUBLIC;
-        $post->save();
+        $post->update(['status' => Post::PUBLIC]);
+
         return response()->json('Post published successfully.', Response::HTTP_OK);
     }
 
-    public function disablePost(Post $post):JsonResponse
+
+    public function hidePost(Post $post):JsonResponse
     {
-        if(!$post){
-            return response()->json('Post not found.', Response::HTTP_NOT_FOUND);
-        }
-        $post->status = Post::PRIVATE;
-        $post->save();
+        $post->update(['status' => Post::PRIVATE]);
+
         return response()->json('The post was successfully made private.', Response::HTTP_OK);
+    }
+
+    public function destroy(Post $post)
+    {
+        $post->delete();
+
+        return response()->json('Post successfully deleted.', Response::HTTP_OK);
     }
 
 
