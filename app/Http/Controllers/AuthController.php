@@ -24,7 +24,8 @@ class AuthController extends Controller
             'status' => User::GUEST
         ]);
         return response()->json([
-            'data' => $user,
+            'message' => 'User registered successfully.',
+            'data' => $user
         ],Response::HTTP_CREATED);
     }
 
