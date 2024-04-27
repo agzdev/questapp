@@ -12,12 +12,12 @@ class PostController extends Controller
 {
     public function create(CreatePostRequest $request):JsonResponse
     {
-        Post::create([
+        $post = Post::create([
             'title' => $request->title,
             'text' => $request->text,
             'status' => Post::PRIVATE
         ]);
-        return response()->json('Post created successfully.', Response::HTTP_CREATED);
+        return response()->json(['Post created successfully.', $post], Response::HTTP_CREATED);
     }
 
     public function update(UpdatePostRequest $request, Post $post):JsonResponse
