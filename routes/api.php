@@ -16,8 +16,8 @@ Route::controller(AuthController::class)->group(function (){
 
 Route::controller(ResetPasswordController::class)->group(function (){
     Route::post('/forgot-password', 'sendLinkResetPassword')->name('user.forgot-password');
-    Route::post('/new-password', 'resetPassword')->name('user.reset-password-from-mail');
-    Route::post('/reset-password', 'resetPassword')->name('user.reset-password')->middleware(['auth:sanctum']);
+    Route::post('/reset-password', 'resetPassword')->name('user.reset-password-from-mail');
+    Route::post('/change-password', 'resetPassword')->name('user.reset-password')->middleware(['auth:sanctum']);
 });
 
 Route::controller(PostController::class)->middleware(['auth:sanctum'])->group(function (){
