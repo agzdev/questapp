@@ -22,7 +22,7 @@ Route::controller(ResetPasswordController::class)->group(function (){
 
 Route::controller(PostController::class)->middleware(['auth:sanctum'])->group(function (){
     Route::post('/create-post', 'create');
-    Route::post('/update-post', 'update');
+    Route::post('/update-post/{post}', 'update');
 });
 
 Route::controller(ProfileController::class)->middleware(['auth:sanctum'])->group(function (){
