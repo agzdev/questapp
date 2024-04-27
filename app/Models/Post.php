@@ -9,6 +9,9 @@ class Post extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['title', 'text', 'status'];
+    public $timestamps = false;
+
     const PRIVATE = 0;
     const PUBLIC = 1;
 }
