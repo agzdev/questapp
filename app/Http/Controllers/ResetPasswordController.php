@@ -10,22 +10,18 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use App\Http\Requests\LinkEmailRequest;
 use App\Http\Requests\ResetPasswordRequest;
+use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
 class ResetPasswordController extends Controller
 {
-    public function resetPassword(ResetPasswordRequest $request)
+    public function resetPassword(ResetPasswordRequest $request):JsonResponse
     {
         $user = User::where('email', $request->email)->first();
         if(!$user) {
             return response()->json([
                 'message' => 'User not found'
             ], Response::HTTP_NOT_FOUND);
-        }
-        if (!Hash::check($request->oldPassword, $user->password)) {
-            return response()->json([
-                'mensaje' => 'La contraseña actual es incorrecta'
-            ], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
         $user->password = Hash::make($request->password);
         $user->save();
@@ -35,7 +31,7 @@ class ResetPasswordController extends Controller
         ], Response::HTTP_OK);
     }
 
-    public function sendLinkResetPassword(LinkEmailRequest $request)
+    public function sendLinkResetPassword(LinkEmailRequest $request):JsonResponse
     {
         $url = URL::temporarySignedRoute('user.reset-password-mail',
             now()->addMinutes(10), ['email' => $request->email]);
