@@ -3,10 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Observers\PostObserver;
+use Illuminate\Http\JsonResponse;
 use App\Http\Requests\CreatePostRequest;
 use App\Http\Requests\UpdatePostRequest;
 use Symfony\Component\HttpFoundation\Response;
-use Illuminate\Http\JsonResponse;
 
 class PostController extends Controller
 {
@@ -15,19 +16,20 @@ class PostController extends Controller
         $post = Post::create([
             'title' => $request->title,
             'text' => $request->text,
-            'status' => Post::PRIVATE
+            'status' => Post::PRIVATE,
         ]);
         return response()->json(['Post created successfully.', $post], Response::HTTP_CREATED);
     }
 
-    public function update(UpdatePostRequest $request, Post $post):JsonResponse
+    public function update(UpdatePostRequest $request):JsonResponse
     {
+        $post = Post::find($request->id);
         $post->update([
             'title' => $request->has('title') ? $request->title : $post->title,
             'text' => $request->has('text') ? $request->text : $post->text,
         ]);
 
-        return response()->json(['Post updated successfully.', $post], Response::HTTP_OK);
+        return response()->json(['Post updated successfully.', $post->only(['title', 'text'])], Response::HTTP_OK);
     }
 
     public function sharePost(Post $post): JsonResponse

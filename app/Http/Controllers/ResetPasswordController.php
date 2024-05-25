@@ -15,6 +15,21 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ResetPasswordController extends Controller
 {
+    public function changePassword(ResetPasswordRequest $request):JsonResponse
+    {
+        $user = User::where('email', $request->email)->first();
+        if(!$user) {
+            return response()->json([
+                'message' => 'User not found'
+            ], Response::HTTP_NOT_FOUND);
+        }
+        $user->password = Hash::make($request->password);
+        $user->save();
+
+        return response()->json([
+            "message" => "Password has been changed"
+        ], Response::HTTP_OK);
+    }
     public function resetPassword(ResetPasswordRequest $request):JsonResponse
     {
         $user = User::where('email', $request->email)->first();

@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('title');
             $table->string('text');
             $table->tinyInteger('status');
+            $table->tinyInteger('user_id');
         });
     }
 

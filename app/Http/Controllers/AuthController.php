@@ -25,7 +25,7 @@ class AuthController extends Controller
         ]);
         return response()->json([
             'message' => 'User registered successfully.',
-            'data' => $user
+            'data' => $user->only('id', 'full_name','username','email','status')
         ],Response::HTTP_CREATED);
     }
 

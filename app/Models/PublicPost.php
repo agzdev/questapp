@@ -5,13 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Post extends Model
+class PublicPost extends Model
 {
     use HasFactory;
-
-    protected $fillable = ['title', 'text', 'status', 'user_id'];
+    protected $table = 'public_posts';
     public $timestamps = false;
-
-    const PRIVATE = 0;
-    const PUBLIC = 1;
+    protected $guarded = [];
 }

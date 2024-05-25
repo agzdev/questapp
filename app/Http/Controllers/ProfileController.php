@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 use App\Http\Requests\UpdateProfileRequest;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class ProfileController extends Controller
 {
@@ -18,10 +17,14 @@ class ProfileController extends Controller
         return response()->json($user, Response::HTTP_OK);
     }
 
-    public function updateProfile(UpdateProfileRequest $request, User $user):JsonResponse
+    public function updateProfile(UpdateProfileRequest $request):JsonResponse
     {
-        if(!$user){
-            return response()->json('User not found.', Response::HTTP_NOT_FOUND);
+        $user = User::find(auth()->user()->id);
+        if (!$user){
+            return response()->json(
+                'User not found, please log in again',
+                Response::HTTP_NOT_FOUND
+            );
         }
         $user->update([
             'full_name' => $request->has('full_name') ? $request->full_name : $user->full_name,

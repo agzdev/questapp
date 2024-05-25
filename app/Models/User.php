@@ -11,7 +11,6 @@ use Laravel\Sanctum\HasApiTokens;
 class User extends Authenticatable
 {
     use HasFactory, Notifiable, HasApiTokens;
-
     protected $guarded = [];
 
     protected $hidden = [
@@ -26,5 +25,9 @@ class User extends Authenticatable
     const ADMIN = 1;
     const GUEST = 2;
 
+    public function posts()
+    {
+        return $this->hasMany(Post::class);
+    }
 
 }
